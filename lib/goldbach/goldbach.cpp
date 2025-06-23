@@ -118,13 +118,16 @@ num evalute_partition_function(const num xval, num* prime_storage_start)
             p2_min_loc = p2;
         }
 
-        while (*p2 < xval)
+        num sum = *p1 + *p2;
+        
+        while (sum <= xval) // once the sum has exceeded xval, no need to check
         {
-            if (*p1 + *p2 == xval)
+            if (sum == xval)
             {
                 result++;
             }
             p2++;
+            sum = *p1 + *p2;
         }
 
         p2=p2_min_loc;
