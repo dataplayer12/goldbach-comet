@@ -213,3 +213,14 @@ num evalute_partition_function_recursive(const num xval, num* prime_storage_star
     }
     return result;
 }
+
+void write_to_file(std::ofstream &record, num* const xpos, num* const ypos, const num entries)
+{
+    for (num idx=0; idx < entries - 1; idx++)
+    {
+        record << xpos[idx] << ", " << ypos[idx] << "\n";
+    }
+
+    record << xpos[entries-1] << ", " << ypos[entries-1] << std::endl;
+    // endl will cause the stream to flush only once at the end of the writing process
+}
