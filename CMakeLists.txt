@@ -17,3 +17,6 @@ add_executable(compute src/main.cpp)
 
 # Link the gb library
 target_link_libraries(compute PRIVATE gb)
+
+add_executable(recursive src/recursive.cpp)
+target_link_libraries(recursive PRIVATE gb)
