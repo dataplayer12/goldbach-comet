@@ -4,9 +4,10 @@
 #include <math.h>
 #include <vector>
 #include <string>
+#include <fstream>
 
-#define COMET_LENGTH (1000000)
-#define NUM_BUCKETS 8192
+#define COMET_LENGTH (100000)
+#define NUM_BUCKETS 1024
 constexpr bool verbose=false;
 // ToDo: add logging levels
 
@@ -26,3 +27,5 @@ num evalute_partition_function(const num xval, num* prime_storage_start, num* &s
 void update_buckets(const num xval, num* prime_storage_start, num* &bucket_positions, num num_buckets);
 
 num evalute_partition_function_recursive(const num xval, num* prime_storage_start, num* b2_positions, const num num_buckets);
+
+void write_to_file(std::ofstream &record, num* const xpos, num* const ypos, const num entries);
