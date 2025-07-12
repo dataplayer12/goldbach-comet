@@ -25,6 +25,9 @@ int main(int argc, char* argv[])
 
     fill_xvalues(&xvalues[0]);
 
+    std::ofstream record;
+    record.open("gx_values.txt");
+
     for (int idx=0; idx<100; idx++)
     {
         find_primes(xvalues[idx*multiplicative_factor], xvalues[(idx+1)*multiplicative_factor], storage_head, &scratch[0]);
@@ -54,8 +57,13 @@ int main(int argc, char* argv[])
         if (idx%1000==0)
         {
             printf("idx=%d, G(%d)=%d\n", idx, xvalues[idx], yvalues[idx]);
+            if (idx>=1000)
+            {
+                write_to_file(record, &xvalues[idx-1000], &yvalues[idx-1000], 1000);
+            }
         }
     }
+    record.close();
     auto end = std::chrono::system_clock::now();
     printf("Time taken = %lld ns\n", (end-start).count());
     sciplot::Plot2D plot;
