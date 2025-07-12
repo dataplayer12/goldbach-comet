@@ -4,12 +4,13 @@
 
 int main(int argc, char* argv[])
 {
-    std::array<num, COMET_LENGTH> xvalues;
-    std::array<num, COMET_LENGTH> yvalues;
+    std::vector<num> xvalues;
+    xvalues.resize(COMET_LENGTH);
 
-    std::array<num, COMET_LENGTH/2> scratch;
-    // std::vector<num> scratch;
-    // scratch.resize(COMET_LENGTH/2); // half should be really enough
+    std::vector<num> yvalues;
+    yvalues.resize(COMET_LENGTH);
+
+    std::array<num, COMET_LENGTH/2> scratch;    
     num* storage_head = &scratch[0];
     num multiplicative_factor = COMET_LENGTH/100;
 
@@ -20,15 +21,20 @@ int main(int argc, char* argv[])
         find_primes(xvalues[idx*multiplicative_factor], xvalues[(idx+1)*multiplicative_factor], storage_head, &scratch[0]);
     }
 
+    num* hint = &scratch[0]; // initially we start guessing p2 at the first prime
+
+    auto start = std::chrono::system_clock::now();
     for (num idx=0; idx < COMET_LENGTH; idx++)
     {
-        yvalues[idx] = evalute_partition_function(xvalues[idx], &scratch[0]);
+        yvalues[idx] = evalute_partition_function(xvalues[idx], &scratch[0], hint);
 
         if (idx%1000==0)
         {
-            printf("idx=%d, G(%d)=%d\n", idx, xvalues[idx], yvalues[idx]);
+            printf("idx=%d, G(%d)=%d, hint=%d\n", idx, xvalues[idx], yvalues[idx], *hint);
         }
     }
+    auto end = std::chrono::system_clock::now();
+    printf("Time taken = %lld ns\n", (end-start).count());
     sciplot::Plot2D plot;
     plot.xlabel("x");
     plot.ylabel("G(x)");
